@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.3"
     }
     packaging {
         resources {
@@ -54,7 +54,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -71,32 +70,38 @@ dependencies {
 
     // coil
     implementation(libs.coil.compose)
-    // navigation
+    // compose navigation
     implementation(libs.androidx.navigation.compose)
-
-
-
+    // mockk
     testImplementation(libs.mockk)
+    // turbine
     testImplementation(libs.turbine)
-    androidTestImplementation(libs.espresso)
-
+    // lifecycle
     implementation(libs.lifecycle.runtime.ktx)
-
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-
+    // hilt
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
-
+    // coroutines
     implementation(libs.coroutines)
+    // retrofit
     implementation(libs.retrofit)
     implementation(libs.okhttp3)
-    implementation(libs.gson)
     implementation(libs.gson.converter)
-
+    // gson code
+    implementation(libs.gson)
+    // chucker
+    debugImplementation(libs.chucker)
+    // paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
+    // room
     implementation(libs.room)
     ksp(libs.room.compiler)
+
+    implementation(libs.lottie)
+
 }
