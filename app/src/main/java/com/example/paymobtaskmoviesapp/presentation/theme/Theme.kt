@@ -1,4 +1,4 @@
-package com.example.paymobtaskmoviesapp.ui.theme
+package com.example.paymobtaskmoviesapp.presentation.theme
 
 import android.app.Activity
 import android.os.Build
@@ -15,32 +15,35 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val lightColorScheme = lightColorScheme(
+    primary = light_primary,
+    onPrimary = light_onPrimary,
+    secondary = light_secondary,
+    onSecondary = light_onSecondary,
+    error = light_error,
+    onError = light_onError,
+    background = light_background,
+    onBackground = light_onBackground,
+    surface = light_surface,
+    onSurface = light_onSurface,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+private val DarkColorScheme = darkColorScheme(
+    primary = light_primary,
+    onPrimary = light_onPrimary,
+    secondary = light_secondary,
+    onSecondary = light_onSecondary,
+    error = light_error,
+    onError = light_onError,
+    background = light_background,
+    onBackground = light_onBackground,
+    surface = light_surface,
+    onSurface = light_onSurface,
 )
 
 @Composable
 fun PaymobTaskMoviesAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
@@ -51,7 +54,7 @@ fun PaymobTaskMoviesAppTheme(
         }
 
         darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> lightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -65,6 +68,7 @@ fun PaymobTaskMoviesAppTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
+        shapes = Shapes,
         content = content
     )
 }
