@@ -18,3 +18,5 @@ val light_surface = Color(0xFFFFFFFF)
 val light_onSurface = Color(0xFF000000)
 
 val LightGray = Color(0xFF929292)
+val LightGreen = Color(0xFF31B057)
+val Red = Color(0xFFFF0000)

@@ -9,40 +9,40 @@ import androidx.compose.ui.unit.sp
 import com.example.paymobtaskmoviesapp.R
 
 
-val Roboto = FontFamily(
-    Font(R.font.roboto_bold, FontWeight.Bold),
-    Font(R.font.roboto_medium,FontWeight.Medium),
-    Font(R.font.roboto_regular, FontWeight.Normal),
+val Poppins = FontFamily(
+    Font(R.font.poppins_light, FontWeight.Normal),
+    Font(R.font.poppins_medium,FontWeight.Medium),
+    Font(R.font.poppins_semibold, FontWeight.SemiBold),
 )
 
 val Typography = Typography(
     titleLarge = TextStyle(
-        fontFamily = Roboto,
-        fontWeight = FontWeight.Bold,
-        fontSize = 22.sp
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = Roboto,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp,
-    ),
-    titleSmall = TextStyle(
-        fontFamily = Roboto,
-        fontWeight = FontWeight.Bold,
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
         fontSize = 18.sp,
     ),
+    titleSmall = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+    ),
     bodyLarge = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 18.sp,
     ),
     bodyMedium = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = Roboto,
+        fontFamily = Poppins,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
     ),
