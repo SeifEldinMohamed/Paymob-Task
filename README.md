@@ -46,22 +46,13 @@ movie should be clickable, leading to a details page containing all relevant inf
 
 # Screen Shots
 <p align="center">
-<img src = "screenshots/trending_light.jpg"  height="400" width = "200">
-<img src = "screenshots/details_light.jpg" height="400" width = "200">
-<img src = "screenshots/issues_light.jpg" height="400" width = "200">
+<img src = "screenshots/movies_list_shimmer.png"  height="400" width = "200">
+<img src = "screenshots/movies_list.png" height="400" width = "200">
+<img src = "screenshots/error_handling.png" height="400" width = "200">
 <br />
 <br />
-<img src = "screenshots/shimmer_light.jpg"  height="400" width = "200">
-<img src = "screenshots/error_light.jpg" height="400" width = "200">
+<img src = "screenshots/details_shimmer.png"  height="400" width = "200">
+<img src = "screenshots/movie_details.png" height="400" width = "200">
 <br />
 <br />
-<br />
-<br />
-<img src = "screenshots/trending_dark.jpg"  height="400" width = "200">
-<img src = "screenshots/details_dark.jpg" height="400" width = "200">
-<img src = "screenshots/issues_dark.jpg"  height="400" width = "200">
-<br />
-<br />
-<img src = "screenshots/shimmer_dark.jpg" height="400" width = "200">
-<img src = "screenshots/error_dark.jpg"  height="400" width = "200">
 </p>
