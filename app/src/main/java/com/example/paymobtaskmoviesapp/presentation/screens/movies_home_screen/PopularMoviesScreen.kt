@@ -1,5 +1,6 @@
 package com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,20 +16,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.paymobtaskmoviesapp.R
+import com.example.paymobtaskmoviesapp.domain.model.CustomApiExceptionDomainModel
 import com.example.paymobtaskmoviesapp.presentation.common_components.CenterAlignedAppBar
 import com.example.paymobtaskmoviesapp.presentation.common_components.ErrorSection
+import com.example.paymobtaskmoviesapp.presentation.mapper.toCustomApiExceptionUiModel
 import com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen.components.PopularMovieItem
 import com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen.components.shimmer_loading.AnimateShimmerMoviesList
 import com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen.preview_data.fakePopularMoviesUiState
@@ -39,17 +42,16 @@ import com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen.p
 fun PopularMoviesScreen(
     onMovieClick: (id: Int) -> Unit,
     onFavouriteClick: (id: Int) -> Unit,
-    onRefreshButtonClicked: () -> Unit
 ) {
     val popularMoviesViewModel: PopularMoviesViewModel = hiltViewModel()
-    val popularMoviesUiState = popularMoviesViewModel.popularMoviesUiState.collectAsState()
-    // val favorites by viewModel.favorites.collectAsState()
+    val popularMoviesUiState =
+        popularMoviesViewModel.popularMoviesUiState.collectAsState()
 
     PopularMoviesContent(
         popularMoviesUiState = popularMoviesUiState.value,
         onMovieClick = onMovieClick,
         onFavouriteClick = onFavouriteClick,
-        onRefreshButtonClicked = onRefreshButtonClicked
+        onRefreshButtonClicked = { popularMoviesViewModel.requestPopularMovies() }
     )
 }
 
@@ -64,7 +66,9 @@ fun PopularMoviesContent(
     val popularMoviesLazyPagingItems =
         popularMoviesUiState.popularMoviesPagingDataFlow.collectAsLazyPagingItems()
     Column(
-        Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
         CenterAlignedAppBar(
             title = R.string.popular_movies_screen_title,
@@ -80,7 +84,7 @@ fun PopularMoviesContent(
             popularMoviesUiState.isError -> {
                 ErrorSection(
                     onRefreshButtonClicked = onRefreshButtonClicked,
-                    customErrorExceptionUiModel = popularMoviesUiState.customErrorExceptionUiModel
+                    customApiErrorExceptionUiModel = popularMoviesUiState.customErrorExceptionUiModel
                 )
             }
 
@@ -93,11 +97,9 @@ fun PopularMoviesContent(
                         movieUiModelItem?.let {
                             PopularMovieItem(
                                 popularMovieUiModel = movieUiModelItem,
-                                // isFavorite = favorites.any { it.id == movie.id },
                                 isFavorite = false,
                                 onMovieClick = onMovieClick,
                                 onFavoriteClick = onFavouriteClick
-                                // onFavoriteClick = { viewModel.toggleFavorite(movie) }
                             )
                         }
                     }
@@ -119,9 +121,22 @@ fun PopularMoviesContent(
                             is LoadState.Error -> {
                                 item {
                                     Text(
-                                        text = "Failed to load more movies",
+                                        text = stringResource(R.string.failed_to_load_more_movies),
                                         color = Color.Red,
                                         modifier = Modifier.padding(8.dp)
+                                    )
+                                }
+                            }
+
+                            is LoadState.NotLoading -> {}
+                        }
+                        when(loadState.refresh){
+                            is LoadState.Loading -> {}
+                            is LoadState.Error -> {
+                                item {
+                                    ErrorSection(
+                                        onRefreshButtonClicked = onRefreshButtonClicked,
+                                        customApiErrorExceptionUiModel = ((loadState.refresh as LoadState.Error).error as CustomApiExceptionDomainModel).toCustomApiExceptionUiModel()
                                     )
                                 }
                             }
