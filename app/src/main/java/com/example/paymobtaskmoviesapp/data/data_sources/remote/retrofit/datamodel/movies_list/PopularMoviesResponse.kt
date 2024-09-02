@@ -2,7 +2,7 @@ package com.example.paymobtaskmoviesapp.data.data_sources.remote.retrofit.datamo
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieResponse(
+data class PopularMoviesResponse(
     val page: Int,
     @SerializedName("results")
     val movieListDataModel: List<MovieDataModel>,
