@@ -3,7 +3,9 @@ package com.example.paymobtaskmoviesapp.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.paymobtaskmoviesapp.data.Constants.Companion.BASE_URL
+import com.example.paymobtaskmoviesapp.data.data_sources.remote.retrofit.api.MovieDetailsApi
 import com.example.paymobtaskmoviesapp.data.data_sources.remote.retrofit.api.MoviesApi
+import com.example.paymobtaskmoviesapp.data.data_sources.remote.retrofit.interceptor.ApiKeyInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,14 +25,15 @@ object NetworkModule {
     fun provideRetrofitInstance(
         @ApplicationContext context: Context
     ): Retrofit {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(ApiKeyInterceptor())
+            .addInterceptor(ChuckerInterceptor(context))
+            .build()
+        
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(
-                OkHttpClient.Builder()
-                .addInterceptor(ChuckerInterceptor(context))
-                .build()
-            )
+            .client(okHttpClient)
             .build()
     }
 
@@ -40,5 +43,10 @@ object NetworkModule {
         return retrofit.create(MoviesApi::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideMovieDetailsApiService(retrofit: Retrofit): MovieDetailsApi {
+        return retrofit.create(MovieDetailsApi::class.java)
+    }
 
 }

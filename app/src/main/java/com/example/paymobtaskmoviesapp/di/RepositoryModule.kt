@@ -1,6 +1,7 @@
 package com.example.paymobtaskmoviesapp.di
 
 
+import com.example.paymobtaskmoviesapp.data.data_sources.local.MoviesLocalDataSource
 import com.example.paymobtaskmoviesapp.data.data_sources.remote.MoviesRemoteDataSource
 import com.example.paymobtaskmoviesapp.data.repository.MoviesRepositoryImpl
 import com.example.paymobtaskmoviesapp.domain.repository.MoviesRepository
@@ -16,9 +17,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideTrendingGithubRepositoryImp(
-      moviesRemoteDataSource: MoviesRemoteDataSource
+      moviesRemoteDataSource: MoviesRemoteDataSource,
+      moviesLocalDataSource: MoviesLocalDataSource
     ): MoviesRepository {
-        return MoviesRepositoryImpl(moviesRemoteDataSource)
+        return MoviesRepositoryImpl(moviesRemoteDataSource, moviesLocalDataSource)
     }
 
 }
