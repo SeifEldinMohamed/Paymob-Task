@@ -45,6 +45,6 @@ val fakePopularMovies = listOf(
 
 val fakePopularMoviesUiState = PopularMoviesUiState(
     isLoading = false,
-    isError = false,
+    isError = true,
     popularMoviesPagingDataFlow = flowOf(PagingData.from(fakePopularMovies))
 )
