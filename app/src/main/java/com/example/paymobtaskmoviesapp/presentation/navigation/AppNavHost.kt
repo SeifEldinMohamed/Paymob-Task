@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.paymobtaskmoviesapp.presentation.screens.movie_details_screen.MovieDetailsScreen
 import com.example.paymobtaskmoviesapp.presentation.screens.movies_home_screen.PopularMoviesScreen
 import com.example.paymobtaskmoviesapp.presentation.utils.Constants.Companion.MOVIE_ID_KEY
 
@@ -24,19 +25,22 @@ fun AppNavHost() {
                     navController.navigate(Screens.MovieDetailsScreen.passMovieId(movieId))
                 },
                 onFavouriteClick = {},
-                onRefreshButtonClicked = {}
             )
         }
 
         composable(
             route = Screens.MovieDetailsScreen.route,
             arguments = listOf(navArgument(MOVIE_ID_KEY) {
-                type = NavType.StringType
+                type = NavType.IntType
             })
         ) {
-            val movieId = it.arguments?.getString(MOVIE_ID_KEY)
+            val movieId = it.arguments?.getInt(MOVIE_ID_KEY)
             movieId?.let { id ->
-
+                MovieDetailsScreen(
+                    movieId = id
+                ) {
+                    navController.navigateUp()
+                }
             }
         }
     }
