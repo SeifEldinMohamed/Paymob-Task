@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     // coroutines
     implementation(libs.coroutines)
+    testImplementation(libs.coroutines.test)
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.okhttp3)
@@ -103,5 +104,6 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(libs.lottie)
+    implementation(kotlin("test"))
 
 }
