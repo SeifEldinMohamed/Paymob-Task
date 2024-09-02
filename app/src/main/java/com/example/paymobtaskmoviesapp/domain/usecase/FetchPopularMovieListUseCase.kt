@@ -9,8 +9,6 @@ import javax.inject.Inject
 class FetchPopularMovieListUseCase @Inject constructor(
     private val moviesRepository: MoviesRepository
 ) {
-    operator fun invoke(): Flow<PagingData<PopularMovieDomainModel>> {
-        return moviesRepository.fetchPopularMovies()
-    }
+    operator fun invoke(): Flow<PagingData<PopularMovieDomainModel>> = moviesRepository.fetchPopularMovies()
 
 }
