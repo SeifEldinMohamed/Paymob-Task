@@ -31,30 +31,39 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.paymobtaskmoviesapp.R
-import com.example.paymobtaskmoviesapp.presentation.model.CustomExceptionUiModel
+import com.example.paymobtaskmoviesapp.presentation.model.CustomApiExceptionUiModel
+import com.example.paymobtaskmoviesapp.presentation.model.CustomDatabaseExceptionUiModel
 import com.example.paymobtaskmoviesapp.presentation.theme.LightGray
 import com.example.paymobtaskmoviesapp.presentation.theme.LightGreen
 
 @Composable
 fun ErrorSection(
     onRefreshButtonClicked: () -> Unit,
-    customErrorExceptionUiModel: CustomExceptionUiModel
+    customApiErrorExceptionUiModel: CustomApiExceptionUiModel? = null,
+    customDatabaseExceptionUiModel: CustomDatabaseExceptionUiModel? = null
 ) {
     val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(R.raw.error_animation))
-    val errorMessage = when (customErrorExceptionUiModel) {
-        is CustomExceptionUiModel.Timeout -> stringResource(R.string.timeout_exception_message)
-        is CustomExceptionUiModel.NoInternetConnection -> stringResource(R.string.no_internet_connection_exception_message)
-        is CustomExceptionUiModel.Network -> stringResource(R.string.network_exception_meesage)
-        is CustomExceptionUiModel.ServiceUnreachable -> stringResource(R.string.service_unreachable_exception_message)
-        is CustomExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
-
+    var errorMessage =  customApiErrorExceptionUiModel?.let {
+        when (customApiErrorExceptionUiModel) {
+            is CustomApiExceptionUiModel.Timeout -> stringResource(R.string.timeout_exception_message)
+            is CustomApiExceptionUiModel.NoInternetConnection -> stringResource(R.string.no_internet_connection_exception_message)
+            is CustomApiExceptionUiModel.Network -> stringResource(R.string.network_exception_meesage)
+            is CustomApiExceptionUiModel.ServiceUnreachable -> stringResource(R.string.service_unreachable_exception_message)
+            is CustomApiExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
+        }
+    }
+    customDatabaseExceptionUiModel?.let { 
+        errorMessage = when(customDatabaseExceptionUiModel) {
+            is CustomDatabaseExceptionUiModel.DatabaseError -> stringResource(id = R.string.database_exception_message)
+            is CustomDatabaseExceptionUiModel.Unknown -> stringResource(R.string.unknown_exception_message)
+        }
     }
 
     Column(
         Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
-            .verticalScroll(rememberScrollState()),
+            ,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
@@ -64,7 +73,6 @@ fun ErrorSection(
             composition = composition,
             iterations = LottieConstants.IterateForever,
             modifier = Modifier
-                // .testTag(TAG_STRING_ERROR_LOTTIE_ANIMATION)
                 .padding(bottom = 24.dp)
                 .fillMaxWidth()
                 .height(340.dp)
@@ -81,10 +89,9 @@ fun ErrorSection(
         )
 
         Text(
-            text = errorMessage,
+            text = errorMessage ?: stringResource(id = R.string.unknown_exception_message),
             style = MaterialTheme.typography.bodyLarge,
             color = LightGray,
-            //    modifier = Modifier.testTag(TAG_STRING_ERROR_DESCRIPTION_LABEL)
         )
 
         Spacer(modifier = Modifier.height(80.dp))
@@ -114,7 +121,7 @@ fun ErrorSection(
 fun PreviewNoInternetConnection() {
     ErrorSection(
         onRefreshButtonClicked = {},
-        customErrorExceptionUiModel = CustomExceptionUiModel.NoInternetConnection
+        customApiErrorExceptionUiModel = CustomApiExceptionUiModel.NoInternetConnection
     )
 }
 
